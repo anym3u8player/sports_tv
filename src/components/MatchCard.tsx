@@ -8,6 +8,8 @@ interface Props {
 }
 
 const MatchCard: React.FC<Props> = ({ match }) => {
+  const statusName = match.status_up_name === '未开赛' ? 'Not started yet' : match.status_up_name;
+
   return (
     <Link
       to={`/match/${match.id}/${match.type}`}
@@ -23,7 +25,7 @@ const MatchCard: React.FC<Props> = ({ match }) => {
       </div>
       <div>
         <div className="font-semibold text-lg">{match.score}</div>
-        <div>{match.status_up_name}</div>
+        <div>{statusName}</div>
         <div>{dayjs(match.matchtime).format('YYYY-MM-DD HH:mm')}</div>
       </div>
       <div className="w-24 flex flex-col items-center">
