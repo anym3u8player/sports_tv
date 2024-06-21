@@ -83,7 +83,7 @@ const Cate: React.FC = () => {
       <Form>
         <div className="form-control w-full max-w-xs mx-auto mb-4">
           <label className="label">
-            <span className="label-text">比赛日期</span>
+            <span className="label-text">Competition Date</span>
           </label>
           <input
             type="date"
@@ -106,7 +106,7 @@ const Cate: React.FC = () => {
             loadData={() => setPage((p) => (p ? p + 1 : 2))}
           />
         ) : (
-          <div className="text-center">暂无更多数据</div>
+          <div className="text-center">No more data</div>
         )
       ) : (
         <div className="flex flex-col gap-4">
