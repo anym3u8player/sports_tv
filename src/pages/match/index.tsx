@@ -100,11 +100,18 @@ const Match: React.FC = () => {
           />
           <div className="truncate w-full">{match.hteam_name}</div>
         </div>
-        <div>
-          <div className="font-semibold text-lg">{match.score}</div>
-          <div>{match.status_up_name}</div>
-          <div>{dayjs(match.matchtime).format('YYYY-MM-DD HH:mm')}</div>
-        </div>
+<div>
+  <div className="font-semibold text-lg">{match.score}</div>
+  <div>{match.status_up_name}</div>
+  <div>
+    {(() => {
+      const date = new Date(match.matchtime);
+      date.setHours(date.getHours() - 8);
+      return date.toISOString().slice(0, 16).replace('T', ' ');
+    })()}
+  </div>
+</div>
+
         <div className="w-24 flex flex-col items-center">
           <img
             src={match.ateam_logo}
