@@ -17,8 +17,8 @@ export const matchLoader: LoaderFunction = async ({ params }) => {
     }
   }
   return Response.json(
-    { msg: '数据错误' },
-    { statusText: '暂无数据', status: 404 }
+    { msg: 'data error' },
+    { statusText: 'No data', status: 404 }
   )
 }
 
@@ -121,7 +121,7 @@ const Match: React.FC = () => {
             disabled={loading}
             onClick={() => setUpdateStamp((t) => t + 1)}
           >
-            刷新数据
+            Refresh Data
           </button>
         </div>
       )}
@@ -131,12 +131,12 @@ const Match: React.FC = () => {
             className="tabs-boxed"
             items={[
               {
-                label: '数据统计',
+                label: 'Statistics',
                 value: 0,
                 children: <Stats match={match} matchStats={stats} />,
               },
               {
-                label: '球队数据',
+                label: 'Team statistics',
                 value: 1,
                 children: null,
               },
