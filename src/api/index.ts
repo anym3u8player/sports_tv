@@ -28,7 +28,7 @@ export function fetchHotPageData(
       ps: 20,
       level: '',
       name: '',
-      langtype: 'zh',
+      langtype: 'en',
       pid: 1,
       zoneId: 'Asia/Shanghai',
       ...params,
@@ -48,7 +48,7 @@ export function fetchMatchData(
       type,
       isnew: 1,
       pid: 1,
-      langtype: 'zh',
+      langtype: 'en',
       test: 1,
       zoneId: 'Asia/Shanghai',
     },
@@ -66,7 +66,7 @@ export function fetchMatchStats(
       mid,
       type: 2,
       tabtype: 2,
-      langtype: 'zh',
+      langtype: 'en',
     },
   }).then((res) => {
     if (typeof res.data === 'string') {
@@ -92,7 +92,7 @@ export function fetchMatchTeamStats(mid: string | number): Promise<TeamStats> {
       mid,
       type: 2,
       tabtype: 3,
-      langtype: 'zh',
+      langtype: 'en',
     },
   }).then((res) => res.data)
 }
