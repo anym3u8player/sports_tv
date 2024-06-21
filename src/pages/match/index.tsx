@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLoaderData, useParams } from 'react-router-dom';
 import { fetchMatchData, fetchMatchStats } from '../../api';
 import type { MatchData, LiveInfo, MatchStats } from '../../types';
@@ -7,7 +7,14 @@ import Tabs from '../../components/Tabs';
 import Stats from './Stats';
 import Player from '../../components/Player';
 
-export const matchLoader = async ({ params }) => {
+type LoaderParams = {
+  params: {
+    id: string;
+    type: string;
+  };
+};
+
+export const matchLoader = async ({ params }: LoaderParams) => {
   if (params.id) {
     const match = await fetchMatchData(params.id, params.type);
     const stats = await fetchMatchStats(params.id);
@@ -17,11 +24,10 @@ export const matchLoader = async ({ params }) => {
 };
 
 const Match = () => {
-  const params = useParams();
+  const { id, type } = useParams<{ id: string, type: string }>();
   const data = useLoaderData() as { match: MatchData, stats?: MatchStats };
 
-  // Maintain all live URLs and the currently selected index
-  const [liveUrls, setLiveUrls] = useState<LiveInfo[]>(data.match.matchinfo.live_urls);
+  const [liveUrls] = useState<LiveInfo[]>(data.match.matchinfo.live_urls);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const [match, setMatch] = useState(data.match.matchinfo);
@@ -30,18 +36,16 @@ const Match = () => {
   const [updateStamp, setUpdateStamp] = useState(0);
 
   const playing = useMemo(() => data.match.matchinfo.status === 0, [data.match.matchinfo.status]);
-
-  // Update current live URL based on selected index
   const currentLive = useMemo(() => liveUrls[currentIndex], [liveUrls, currentIndex]);
 
   useEffect(() => {
-    if (playing && params.id && params.type && updateStamp) {
+    if (playing && id && type && updateStamp) {
       setLoading(true);
-      const res1 = fetchMatchData(params.id, params.type).then((data) => setMatch(data.matchinfo));
-      const res2 = fetchMatchStats(params.id).then(setStats);
+      const res1 = fetchMatchData(id, type).then((data) => setMatch(data.matchinfo));
+      const res2 = fetchMatchStats(id).then(setStats);
       Promise.all([res1, res2]).finally(() => setLoading(false));
     }
-  }, [params.id, params.type, playing, updateStamp]);
+  }, [id, type, playing, updateStamp]);
 
   return (
     <section>
@@ -63,11 +67,7 @@ const Match = () => {
       </div>
       <div className="mx-auto my-4 p-2 max-w-lg rounded-lg lg:rounded-2xl shadow-xl text-center flex items-center justify-between gap-1 lg:gap-4">
         <div className="w-24 flex flex-col items-center">
-          <img
-            src={match.hteam_logo}
-            alt={match.hteam_name}
-            className="w-10 h-10"
-          />
+          <img src={match.hteam_logo} alt={match.hteam_name} className="w-10 h-10" />
           <div className="truncate w-full">{match.hteam_name}</div>
         </div>
         <div>
@@ -76,11 +76,7 @@ const Match = () => {
           <div>{dayjs(match.matchtime).format('YYYY-MM-DD HH:mm')}</div>
         </div>
         <div className="w-24 flex flex-col items-center">
-          <img
-            src={match.ateam_logo}
-            alt={match.ateam_name}
-            className="w-10 h-10"
-          />
+          <img src={match.ateam_logo} alt={match.ateam_name} className="w-10 h-10" />
           <div className="truncate w-full">{match.ateam_name}</div>
         </div>
       </div>
@@ -120,7 +116,7 @@ const Match = () => {
         <div>status_up_name:{match.status_up_name}</div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Match
+export default Match;
