@@ -22,6 +22,8 @@ const MatchCard: React.FC<Props> = ({ match }) => {
     statusName = 'First Half';
   } else if (match.status_up_name === '中场') {
     statusName = 'Midfield';
+  } else if (match.status_up_name === '完场') {
+    statusName = 'Finished';
   } else if (match.status_up_name === '下半场') {
     statusName = 'Second Half';
   } else {
