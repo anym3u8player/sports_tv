@@ -1,89 +1,59 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { useLoaderData, type LoaderFunction, useParams } from 'react-router-dom'
-import { fetchMatchData, fetchMatchStats } from '../../api'
-import type { MatchData, LiveInfo, MatchStats } from '../../types'
-import dayjs from 'dayjs'
-import Tabs from '../../components/Tabs'
-import Stats from './Stats'
-import Player from '../../components/Player'
+import React, { useEffect, useMemo, useState } from 'react';
+import { useLoaderData, useParams } from 'react-router-dom';
+import { fetchMatchData, fetchMatchStats } from '../../api';
+import type { MatchData, LiveInfo, MatchStats } from '../../types';
+import dayjs from 'dayjs';
+import Tabs from '../../components/Tabs';
+import Stats from './Stats';
+import Player from '../../components/Player';
 
-export const matchLoader: LoaderFunction = async ({ params }) => {
+export const matchLoader = async ({ params }) => {
   if (params.id) {
-    const match = await fetchMatchData(params.id, params.type)
-    const stats = await fetchMatchStats(params.id)
-    return {
-      match,
-      stats,
-    }
+    const match = await fetchMatchData(params.id, params.type);
+    const stats = await fetchMatchStats(params.id);
+    return { match, stats };
   }
-  return Response.json(
-    { msg: 'data error' },
-    { statusText: 'No data', status: 404 }
-  )
-}
+  return new Response(JSON.stringify({ msg: 'data error' }), { statusText: 'No data', status: 404 });
+};
 
-// const MATCH_STATUS = [1, 8, 10]
+const Match = () => {
+  const params = useParams();
+  const data = useLoaderData() as { match: MatchData, stats?: MatchStats };
 
-const Match: React.FC = () => {
-  const params = useParams()
-  const data = useLoaderData() as {
-    match: MatchData
-    stats?: MatchStats
-  }
+  // Maintain all live URLs and the currently selected index
+  const [liveUrls, setLiveUrls] = useState<LiveInfo[]>(data.match.matchinfo.live_urls);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const [currentLive, setCurrentLive] = useState<LiveInfo>(() => {
-    const cur = data.match.matchinfo.live_urls.find(
-      (l) => l.name === '腾讯' || l.name.includes('清')
-    )
-    return cur || data.match.matchinfo.live_urls[0]
-  })
+  const [match, setMatch] = useState(data.match.matchinfo);
+  const [stats, setStats] = useState<MatchStats | undefined>(data.stats);
+  const [loading, setLoading] = useState(false);
+  const [updateStamp, setUpdateStamp] = useState(0);
 
-  const [match, setMatch] = useState(data.match.matchinfo)
-  const [stats, setStats] = useState<MatchStats | undefined>(data.stats)
-  const [loading, setLoading] = useState(false)
-  const [updateStamp, setUpdateStamp] = useState(0)
+  const playing = useMemo(() => data.match.matchinfo.status === 0, [data.match.matchinfo.status]);
 
-  const playing = useMemo(
-    () => data.match.matchinfo.status === 0,
-    [data.match.matchinfo.status]
-  )
-
-  const liveUrl = useMemo(() => currentLive.url, [currentLive.url])
+  // Update current live URL based on selected index
+  const currentLive = useMemo(() => liveUrls[currentIndex], [liveUrls, currentIndex]);
 
   useEffect(() => {
     if (playing && params.id && params.type && updateStamp) {
-      setLoading(true)
-      const res1 = fetchMatchData(params.id, params.type).then((data) =>
-        setMatch(data.matchinfo)
-      )
-      const res2 = fetchMatchStats(params.id).then(setStats)
-      Promise.all([res1, res2]).finally(() => {
-        setLoading(false)
-      })
+      setLoading(true);
+      const res1 = fetchMatchData(params.id, params.type).then((data) => setMatch(data.matchinfo));
+      const res2 = fetchMatchStats(params.id).then(setStats);
+      Promise.all([res1, res2]).finally(() => setLoading(false));
     }
-  }, [params.id, params.type, playing, updateStamp])
-
-  // useEffect(() => {
-  //   let timer: number | undefined
-  //   if (playing) {
-  //     timer = setInterval(() => setUpdateStamp((t) => t + 1), 6000)
-  //   }
-  //   return () => clearInterval(timer)
-  // }, [playing])
+  }, [params.id, params.type, playing, updateStamp]);
 
   return (
     <section>
-      <div>{playing && currentLive && <Player liveUrl={liveUrl} />}</div>
+      <div>{playing && <Player liveUrl={currentLive.url} />}</div>
       <div className="text-center mt-4">
         {playing && (
           <div className="join">
-            {data.match.matchinfo.live_urls.map((live) => (
+            {liveUrls.map((live, index) => (
               <button
                 key={live.index}
-                onClick={() => setCurrentLive(live)}
-                className={`btn btn-sm join-item ${
-                  live.index === currentLive.index ? 'btn-primary' : ''
-                }`}
+                onClick={() => setCurrentIndex(index)}
+                className={`btn btn-sm join-item ${index === currentIndex ? 'btn-primary' : ''}`}
               >
                 {live.name}
               </button>
