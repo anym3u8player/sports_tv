@@ -5,10 +5,10 @@ import ThemeButton from './ThemeButton'
 const Header: React.FC = () => {
   return (
     <header className="flex items-center gap-1 flex-wrap min-h-[40px]">
-      <NavLink to="/">首页</NavLink>
-      <NavLink to="/hot/1">足球</NavLink>
-      <NavLink to="/hot/2">篮球</NavLink>
-      <NavLink to="/cate">分类</NavLink>
+      <NavLink to="/">Home</NavLink>
+      <NavLink to="/hot/1">football</NavLink>
+      <NavLink to="/hot/2">basketball</NavLink>
+      <NavLink to="/cate">Classification</NavLink>
       <ThemeButton />
     </header>
   )
