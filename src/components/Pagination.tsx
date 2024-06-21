@@ -111,7 +111,7 @@ const Pagination: React.FC<Props> = ({
             <li>
               <button
                 className="btn btn-neutral join-item"
-                title="向前5页"
+                title="Previous 5 pages"
                 onClick={() => onPageJump('prev')}
               >
                 ❮❮
@@ -135,7 +135,7 @@ const Pagination: React.FC<Props> = ({
             <li>
               <button
                 className="btn btn-neutral join-item"
-                title="向后5页"
+                title="Back 5 pages"
                 onClick={() => onPageJump('next')}
               >
                 ❯❯
@@ -170,7 +170,7 @@ const Pagination: React.FC<Props> = ({
         <button
           className="btn join-item"
           disabled={disabledPrev}
-          title="上一页"
+          title="Previous page"
           onClick={() => onPageChange(current - 1)}
         >
           <span className="sr-only">Prev current</span>❮
@@ -180,7 +180,7 @@ const Pagination: React.FC<Props> = ({
       <li>
         <button
           className="btn join-item"
-          title="下一页"
+          title="Next Page"
           disabled={disabledNext}
           onClick={() => onPageChange(current + 1)}
         >
