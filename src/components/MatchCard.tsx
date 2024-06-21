@@ -13,6 +13,8 @@ const MatchCard: React.FC<Props> = ({ match }) => {
     statusName = 'Not started yet';
   } else if (match.status_up_name === '上半场') {
     statusName = 'First Half';
+  } else if (match.status_up_name === '中场') {
+    statusName = 'Midfield';
   } else {
     statusName = match.status_up_name;
   }
