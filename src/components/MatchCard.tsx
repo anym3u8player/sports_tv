@@ -8,7 +8,14 @@ interface Props {
 }
 
 const MatchCard: React.FC<Props> = ({ match }) => {
-  const statusName = match.status_up_name === '未开赛' ? 'Not started yet' : match.status_up_name;
+  let statusName;
+  if (match.status_up_name === '未开赛') {
+    statusName = 'Not started yet';
+  } else if (match.status_up_name === '上半场') {
+    statusName = 'First Half';
+  } else {
+    statusName = match.status_up_name;
+  }
 
   return (
     <Link
