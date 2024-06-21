@@ -68,7 +68,7 @@ const Type: React.FC = () => {
           loadData={() => setPage((p) => (p ? p + 1 : 2))}
         />
       ) : (
-        <div className="text-center">暂无更多数据</div>
+        <div className="text-center">No more data</div>
       )}
     </div>
   )
