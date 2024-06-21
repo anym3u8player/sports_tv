@@ -17,8 +17,8 @@ export const matchLoader: LoaderFunction = async ({ params }) => {
     }
   }
   return Response.json(
-    { msg: 'data error' },
-    { statusText: 'No data', status: 404 }
+    { msg: '数据错误' },
+    { statusText: '暂无数据', status: 404 }
   )
 }
 
@@ -81,9 +81,9 @@ const Match: React.FC = () => {
               <button
                 key={live.index}
                 onClick={() => setCurrentLive(live)}
-                className={btn btn-sm join-item ${
+                className={`btn btn-sm join-item ${
                   live.index === currentLive.index ? 'btn-primary' : ''
-                }}
+                }`}
               >
                 {live.name}
               </button>
@@ -121,7 +121,7 @@ const Match: React.FC = () => {
             disabled={loading}
             onClick={() => setUpdateStamp((t) => t + 1)}
           >
-            Refresh Data
+            刷新数据
           </button>
         </div>
       )}
@@ -131,12 +131,12 @@ const Match: React.FC = () => {
             className="tabs-boxed"
             items={[
               {
-                label: 'Statistics',
+                label: '数据统计',
                 value: 0,
                 children: <Stats match={match} matchStats={stats} />,
               },
               {
-                label: 'Team statistics',
+                label: '球队数据',
                 value: 1,
                 children: null,
               },
@@ -152,3 +152,5 @@ const Match: React.FC = () => {
     </section>
   )
 }
+
+export default Match
