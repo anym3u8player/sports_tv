@@ -8,7 +8,7 @@ export function fetchCategoryList(): Promise<Category[]> {
       type: 0,
       isoften: 1,
       ishot: 1,
-      langtype: 'zh',
+      langtype: 'en',
     },
   }).then((res) => res.data.twoCategoryList)
 }
