@@ -31,9 +31,12 @@ const Match: React.FC = () => {
     stats?: MatchStats
   }
 
-const [currentLive, setCurrentLive] = useState<LiveInfo[]>(() => {
-  return data.match.matchinfo.live_urls;
-})
+  const [currentLive, setCurrentLive] = useState<LiveInfo>(() => {
+    const cur = data.match.matchinfo.live_urls.find(
+      (l) => l.name === '腾讯' || l.name.includes('清')
+    )
+    return cur || data.match.matchinfo.live_urls[0]
+  })
 
   const [match, setMatch] = useState(data.match.matchinfo)
   const [stats, setStats] = useState<MatchStats | undefined>(data.stats)
