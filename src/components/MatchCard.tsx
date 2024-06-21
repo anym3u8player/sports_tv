@@ -7,6 +7,13 @@ interface Props {
   match: Match
 }
 
+// Funcția de conversie a datei și orei din CST în UTC
+function convertCSTtoUTC(date: string): string {
+  const localTime = dayjs(date);
+  const utcTime = localTime.subtract(7, 'hour');
+  return utcTime.format('YYYY-MM-DD HH:mm');
+}
+
 const MatchCard: React.FC<Props> = ({ match }) => {
   let statusName;
   if (match.status_up_name === '未开赛') {
@@ -37,7 +44,7 @@ const MatchCard: React.FC<Props> = ({ match }) => {
       <div>
         <div className="font-semibold text-lg">{match.score}</div>
         <div>{statusName}</div>
-        <div>{dayjs(match.matchtime).format('YYYY-MM-DD HH:mm')}</div>
+        <div>{convertCSTtoUTC(match.matchtime)} UTC</div> {/* Afișează data și ora în UTC */}
       </div>
       <div className="w-24 flex flex-col items-center">
         <img
