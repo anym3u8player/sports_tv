@@ -17,8 +17,8 @@ export const matchLoader: LoaderFunction = async ({ params }) => {
     }
   }
   return Response.json(
-    { msg: '数据错误' },
-    { statusText: '暂无数据', status: 404 }
+    { msg: 'wrong data' },
+    { statusText: 'No data yet', status: 404 }
   )
 }
 
@@ -31,12 +31,9 @@ const Match: React.FC = () => {
     stats?: MatchStats
   }
 
-  const [currentLive, setCurrentLive] = useState<LiveInfo>(() => {
-    const cur = data.match.matchinfo.live_urls.find(
-      (l) => l.name === '腾讯' || l.name.includes('清')
-    )
-    return cur || data.match.matchinfo.live_urls[0]
-  })
+const [currentLive, setCurrentLive] = useState<LiveInfo[]>(() => {
+  return data.match.matchinfo.live_urls;
+})
 
   const [match, setMatch] = useState(data.match.matchinfo)
   const [stats, setStats] = useState<MatchStats | undefined>(data.stats)
@@ -121,7 +118,7 @@ const Match: React.FC = () => {
             disabled={loading}
             onClick={() => setUpdateStamp((t) => t + 1)}
           >
-            刷新数据
+            refresh data
           </button>
         </div>
       )}
@@ -131,12 +128,12 @@ const Match: React.FC = () => {
             className="tabs-boxed"
             items={[
               {
-                label: '数据统计',
+                label: 'data statistics',
                 value: 0,
                 children: <Stats match={match} matchStats={stats} />,
               },
               {
-                label: '球队数据',
+                label: 'date',
                 value: 1,
                 children: null,
               },
