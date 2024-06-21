@@ -3,6 +3,7 @@ import { useLoaderData, type LoaderFunction, useParams } from 'react-router-dom'
 import { fetchMatchData, fetchMatchStats } from '../../api'
 import type { MatchData, LiveInfo, MatchStats } from '../../types'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc
 import Tabs from '../../components/Tabs'
 import Stats from './Stats'
 import Player from '../../components/Player'
