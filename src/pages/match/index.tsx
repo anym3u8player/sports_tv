@@ -22,7 +22,12 @@ export const matchLoader: LoaderFunction = async ({ params }) => {
   )
 }
 
-// const MATCH_STATUS = [1, 8, 10]
+// Funcția de conversie a datei și orei în UTC
+function convertToUTC(date: string): string {
+  const localTime = dayjs(date);
+  const utcTime = localTime.utc();
+  return utcTime.format('YYYY-MM-DD HH:mm');
+}
 
 const Match: React.FC = () => {
   const params = useParams()
@@ -103,7 +108,7 @@ const Match: React.FC = () => {
         <div>
           <div className="font-semibold text-lg">{match.score}</div>
           <div>{match.status_up_name}</div>
-          <div>{dayjs(match.matchtime).format('YYYY-MM-DD HH:mm')}</div>
+          <div>{convertToUTC(match.matchtime)}</div> {/* Afișează data și ora în UTC */}
         </div>
         <div className="w-24 flex flex-col items-center">
           <img
