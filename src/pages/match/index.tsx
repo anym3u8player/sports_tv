@@ -25,7 +25,7 @@ export const matchLoader: LoaderFunction = async ({ params }) => {
 // Funcția de conversie a datei și orei din CST în UTC
 function convertCSTtoUTC(date: string): string {
   const localTime = dayjs(date);
-  const utcTime = localTime.subtract(8, 'hour');
+  const utcTime = localTime.subtract(7, 'hour');
   return utcTime.format('YYYY-MM-DD HH:mm');
 }
 
@@ -108,7 +108,7 @@ const Match: React.FC = () => {
         <div>
           <div className="font-semibold text-lg">{match.score}</div>
           <div>{match.status_up_name}</div>
-          <div>{convertCSTtoUTC(match.matchtime)}</div> {/* Afișează data și ora în UTC */}
+          <div>{convertCSTtoUTC(match.matchtime)} UTC</div> {/* Afișează data și ora în UTC */}
         </div>
         <div className="w-24 flex flex-col items-center">
           <img
