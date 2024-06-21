@@ -3,7 +3,6 @@ import { useLoaderData, type LoaderFunction, useParams } from 'react-router-dom'
 import { fetchMatchData, fetchMatchStats } from '../../api'
 import type { MatchData, LiveInfo, MatchStats } from '../../types'
 import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc
 import Tabs from '../../components/Tabs'
 import Stats from './Stats'
 import Player from '../../components/Player'
@@ -23,10 +22,10 @@ export const matchLoader: LoaderFunction = async ({ params }) => {
   )
 }
 
-// Funcția de conversie a datei și orei în UTC
-function convertToUTC(date: string): string {
+// Funcția de conversie a datei și orei din CST în UTC
+function convertCSTtoUTC(date: string): string {
   const localTime = dayjs(date);
-  const utcTime = localTime.utc();
+  const utcTime = localTime.subtract(8, 'hour');
   return utcTime.format('YYYY-MM-DD HH:mm');
 }
 
@@ -109,7 +108,7 @@ const Match: React.FC = () => {
         <div>
           <div className="font-semibold text-lg">{match.score}</div>
           <div>{match.status_up_name}</div>
-          <div>{convertToUTC(match.matchtime)}</div> {/* Afișează data și ora în UTC */}
+          <div>{convertCSTtoUTC(match.matchtime)}</div> {/* Afișează data și ora în UTC */}
         </div>
         <div className="w-24 flex flex-col items-center">
           <img
