@@ -10,7 +10,7 @@ interface Props {
 // Funcția de conversie a datei și orei din CST în UTC
 function convertCSTtoUTC(date: string): string {
   const localTime = dayjs(date);
-  const utcTime = localTime.subtract(7, 'hour');
+  const utcTime = localTime.subtract(8, 'hour');
   return utcTime.format('YYYY-MM-DD HH:mm');
 }
 
