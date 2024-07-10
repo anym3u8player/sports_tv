@@ -90,7 +90,7 @@ export function fetchMatchTeamStats(mid: string | number): Promise<TeamStats> {
     url: '/match/detail/tabs',
     params: {
       mid,
-      type: 2,
+      type: 1,
       tabtype: 3,
       langtype: 'en',
     },
